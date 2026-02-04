@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "next": "latest",
+    "qrcode": "^1.5.4",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
+    "@types/qrcode": "^1",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "eslint": "latest",
