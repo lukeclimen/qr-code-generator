@@ -1,3 +1,5 @@
+"use client";
+
 import QrCodeForm from "./ui/QrCodeForm";
 
 export default function Home() {
@@ -7,7 +9,11 @@ export default function Home() {
         <h1 className="text-5xl font-bold text-white drop-shadow-lg">
           QR Code Generator
         </h1>
-        <QrCodeForm />
+        <QrCodeForm
+          onSubmit={(data) => {
+            console.log(data);
+          }}
+        />
       </div>
     </main>
   );
