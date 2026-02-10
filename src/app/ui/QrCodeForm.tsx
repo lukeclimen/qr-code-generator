@@ -1,28 +1,33 @@
 "use client";
 
-import Form from "next/form";
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import ColourInput from "./ColourInput";
+import { QrFormData } from "../../app/types";
 
-export default function QrCodeForm() {
-  const searchParams = useSearchParams();
-  // Form defaults from query params
-  const defaultPixelColour = searchParams.get("pixelColour");
-  const defaultBackgroundColour = searchParams.get("backgroundColour");
+export default function QrCodeForm({
+  onSubmit,
+}: {
+  onSubmit: (data: QrFormData) => void;
+}) {
+  const [pixelColour, setPixelColour] = useState("#000000");
+  const [backgroundColour, setBackgroundColour] = useState("#000000");
 
-  const [pixelColour, setPixelColour] = useState(
-    defaultPixelColour || "#000000",
-  );
-  const [backgroundColour, setBackgroundColour] = useState(
-    defaultBackgroundColour || "#000000",
-  );
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    onSubmit({
+      siteUrl: formData.get("siteUrl") as string,
+      fileName: formData.get("fileName") as string,
+      pixelColour,
+      backgroundColour,
+    });
+  };
 
   return (
-    <Form
+    <form
       className="flex flex-col gap-6 bg-white p-10 m-5 rounded-lg shadow-md max-w-md"
-      action=""
+      onSubmit={handleSubmit}
     >
       <div className="flex flex-col gap-1">
         <label htmlFor="siteUrl" className="text-sm font-medium text-gray-700">
@@ -66,6 +71,6 @@ export default function QrCodeForm() {
       >
         Generate QR Code
       </button>
-    </Form>
+    </form>
   );
 }
