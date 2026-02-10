@@ -96,7 +96,7 @@ export default function QrCodeForm() {
 
       <button
         type="submit"
-        className="mt-4 p-3 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600 transition-colors"
+        className="mt-4 p-3 bg-linear-to-br from-blue-500 to-purple-600 text-white cursor-pointer rounded-md font-medium transition-colors"
       >
         Generate QR Code
       </button>
