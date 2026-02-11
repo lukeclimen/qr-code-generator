@@ -11,7 +11,7 @@ export default function QrCodeForm({
   onSubmit: (data: QrFormData) => void;
 }) {
   const [pixelColour, setPixelColour] = useState("#000000");
-  const [backgroundColour, setBackgroundColour] = useState("#000000");
+  const [backgroundColour, setBackgroundColour] = useState("#ffffff");
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
