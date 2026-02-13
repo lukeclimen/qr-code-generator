@@ -26,7 +26,7 @@ export default function QrCodeForm({
 
   return (
     <form
-      className="flex flex-col gap-6 bg-white p-10 m-5 rounded-lg shadow-md max-w-md"
+      className="flex flex-col gap-6 bg-white p-10 m-5 rounded-lg shadow-lg w-full max-w-md"
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col gap-1">
@@ -67,7 +67,7 @@ export default function QrCodeForm({
       />
       <button
         type="submit"
-        className="mt-4 p-3 bg-linear-to-br from-blue-500 to-purple-600 text-white cursor-pointer rounded-md font-medium transition-colors"
+        className="mt-4 p-3 bg-linear-to-br from-blue-500 to-purple-600 text-white cursor-pointer rounded-md font-medium shadow-md transition-colors"
       >
         Generate QR Code
       </button>
