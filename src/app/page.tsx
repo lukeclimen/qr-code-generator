@@ -47,7 +47,6 @@ export default function Home() {
           dataUrl={qrCodePreview}
           downloadFileName={downloadFileName}
         />
-        {/* <canvas ref={qrCodePreviewCanvas} /> */}
       </div>
     </main>
   );
