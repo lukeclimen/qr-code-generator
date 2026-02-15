@@ -10,6 +10,7 @@ export default function Home() {
   const [qrCodePreview, setQrCodePreview] = useState<string | null>(null);
   const [downloadFileName, setDownloadFileName] = useState<string | null>(null);
   const qrCodePreviewCanvas = useRef<HTMLCanvasElement>(null);
+  const imagePreviewRef = useRef<HTMLDivElement>(null);
 
   const handleQrFormSubmission = async ({
     siteUrl,
@@ -30,6 +31,13 @@ export default function Home() {
       await QRCode.toCanvas(canvas, siteUrl, options);
       setQrCodePreview(canvas.toDataURL("image/png"));
       setDownloadFileName(fileName);
+
+      setTimeout(() => {
+        imagePreviewRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 100);
     } catch (error) {
       console.error("Failed to generate QR code:", error);
     }
@@ -42,11 +50,13 @@ export default function Home() {
           QR Code Generator
         </h1>
         <QrCodeForm onSubmit={handleQrFormSubmission} />
-        <ImagePreview
-          canvasRef={qrCodePreviewCanvas}
-          dataUrl={qrCodePreview}
-          downloadFileName={downloadFileName}
-        />
+        <div className="w-full max-w-md" ref={imagePreviewRef}>
+          <ImagePreview
+            canvasRef={qrCodePreviewCanvas}
+            dataUrl={qrCodePreview}
+            downloadFileName={downloadFileName}
+          />
+        </div>
       </div>
     </main>
   );

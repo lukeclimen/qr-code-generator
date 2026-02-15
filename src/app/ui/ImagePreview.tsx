@@ -14,7 +14,7 @@ export default function ImagePreview({
   const divClass = useMemo(() => {
     console.log(canvasRef.current);
     return canvasRef.current
-      ? "flex flex-col gap-6 bg-white p-10 m-5 rounded-lg shadow-lg w-full max-w-md"
+      ? "flex flex-col gap-6 bg-white p-10 rounded-lg shadow-lg"
       : "invisible";
   }, [canvasRef.current]);
   return (
