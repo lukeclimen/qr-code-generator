@@ -27,9 +27,13 @@ export default function Home() {
         light: backgroundColour,
       },
     };
+
+    let fileExtension = fileName.split(".").at(-1);
+    if (fileExtension === "jpg") fileExtension = "jpeg";
+
     try {
       await QRCode.toCanvas(canvas, siteUrl, options);
-      setQrCodePreview(canvas.toDataURL("image/png"));
+      setQrCodePreview(canvas.toDataURL(`image/${fileExtension}`));
       setDownloadFileName(fileName);
 
       setTimeout(() => {

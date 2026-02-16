@@ -12,7 +12,6 @@ export default function ImagePreview({
   downloadFileName,
 }: ImagePreviewProps) {
   const divClass = useMemo(() => {
-    console.log(canvasRef.current);
     return canvasRef.current
       ? "flex flex-col gap-6 bg-white p-10 rounded-lg shadow-lg"
       : "invisible";
