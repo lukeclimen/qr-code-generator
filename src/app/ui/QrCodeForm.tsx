@@ -12,16 +12,39 @@ export default function QrCodeForm({
 }) {
   const [pixelColour, setPixelColour] = useState("#000000");
   const [backgroundColour, setBackgroundColour] = useState("#ffffff");
+  const [errors, setErrors] = useState<{ siteUrl?: string; fileName?: string }>(
+    {},
+  );
+
+  const URL_REGEX =
+    /^https?:\/\/(([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,})(:\d+)?(\/[^\s]*)?$/;
+  const VALID_EXTENSIONS = /\.(png|jpe?g|webp)$/i;
+
+  const validate = (siteUrl: string, fileName: string): boolean => {
+    const newErrors: { siteUrl?: string; fileName?: string } = {};
+
+    if (!URL_REGEX.test(siteUrl)) {
+      newErrors.siteUrl = "Please enter a valid URL (e.g. https://example.com)";
+    }
+
+    if (!VALID_EXTENSIONS.test(fileName)) {
+      newErrors.fileName =
+        "File name must end with .png, .jpeg, .jpg, or .webp";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    onSubmit({
-      siteUrl: formData.get("siteUrl") as string,
-      fileName: formData.get("fileName") as string,
-      pixelColour,
-      backgroundColour,
-    });
+    const siteUrl = formData.get("siteUrl") as string;
+    const fileName = formData.get("fileName") as string;
+
+    if (!validate(siteUrl, fileName)) return;
+
+    onSubmit({ siteUrl, fileName, pixelColour, backgroundColour });
   };
 
   return (
@@ -34,24 +57,44 @@ export default function QrCodeForm({
           Website URL
         </label>
         <input
-          className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`p-3 border rounded-md focus:outline-none focus:ring-2 ${
+            errors.siteUrl
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300 focus:ring-blue-500"
+          }`}
           name="siteUrl"
           id="siteUrl"
           placeholder="https://example.com"
           required
+          onChange={() =>
+            setErrors((prev) => ({ ...prev, siteUrl: undefined }))
+          }
         />
+        {errors.siteUrl && (
+          <p className="text-red-500 text-xs mt-1">{errors.siteUrl}</p>
+        )}
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="fileName" className="text-sm font-medium text-gray-700">
           File Name
         </label>
         <input
-          className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`p-3 border rounded-md focus:outline-none focus:ring-2 ${
+            errors.fileName
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300 focus:ring-blue-500"
+          }`}
           name="fileName"
           id="fileName"
           placeholder="qrcode.png"
           required
+          onChange={() =>
+            setErrors((prev) => ({ ...prev, fileName: undefined }))
+          }
         />
+        {errors.fileName && (
+          <p className="text-red-500 text-xs mt-1">{errors.fileName}</p>
+        )}
       </div>
       <ColourInput
         label="Pixel Color"
