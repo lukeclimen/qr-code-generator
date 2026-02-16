@@ -36,6 +36,12 @@ export default function QrCodeForm({
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleSwapColors = () => {
+    const temp = pixelColour;
+    setPixelColour(backgroundColour);
+    setBackgroundColour(temp);
+  };
+
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -96,18 +102,43 @@ export default function QrCodeForm({
           <p className="text-red-500 text-xs mt-1">{errors.fileName}</p>
         )}
       </div>
-      <ColourInput
-        label="Pixel Color"
-        id="pixelColour"
-        value={pixelColour}
-        onChange={setPixelColour}
-      />
-      <ColourInput
-        label="Background Color"
-        id="backgroundColour"
-        value={backgroundColour}
-        onChange={setBackgroundColour}
-      />
+      <div className="flex flex-row-reverse gap-x-2">
+        <button
+          type="button"
+          onClick={handleSwapColors}
+          className="self-center p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+          title="Swap colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+            />
+          </svg>
+        </button>
+        <div className="flex flex-col gap-6">
+          <ColourInput
+            label="Pixel Color"
+            id="pixelColour"
+            value={pixelColour}
+            onChange={setPixelColour}
+          />
+          <ColourInput
+            label="Background Color"
+            id="backgroundColour"
+            value={backgroundColour}
+            onChange={setBackgroundColour}
+          />
+        </div>
+      </div>
       <button
         type="submit"
         className="mt-4 p-3 bg-linear-to-br from-blue-500 to-purple-600 text-white cursor-pointer rounded-md font-medium shadow-md transition-colors"
